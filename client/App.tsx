@@ -13,6 +13,7 @@ import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import InterviewDomainSelect from "./pages/InterviewDomainSelect";
 import Interview from "./pages/Interview";
 import MCQPractice from "./pages/MCQPractice";
 import NotFound from "./pages/NotFound";
@@ -36,6 +37,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/interview-select"
+              element={
+                <ProtectedRoute>
+                  <InterviewDomainSelect />
                 </ProtectedRoute>
               }
             />
