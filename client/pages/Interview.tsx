@@ -394,6 +394,17 @@ export default function Interview() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4 pt-24">
       <div className="max-w-5xl mx-auto">
+        {/* Header */}
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold text-slate-900">
+            {selectedDomainName} Interview
+          </h1>
+          <p className="text-slate-600 capitalize">
+            Difficulty: {state.selectedDifficulty} • Progress:{" "}
+            {currentQuestionIndex + 1}/{questions.length}
+          </p>
+        </div>
+
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Video Feed */}
           <div className="lg:col-span-2 space-y-6">
