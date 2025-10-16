@@ -1,6 +1,6 @@
 import type { RequestHandler } from "express";
-import { realtimeService } from "@server/services/realtime.service";
-import { badRequest } from "@server/utils/http-error";
+import { realtimeService } from "../services/realtime.service.js";
+import { badRequest } from "../utils/http-error.js";
 
 export const handleRealtimeHandshake: RequestHandler = async (req, res, next) => {
   try {
