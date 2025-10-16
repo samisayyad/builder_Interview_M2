@@ -39,7 +39,15 @@ export function createServer() {
 
   registerRoutes(app);
 
-  app.use(notFoundHandler);
+  // Only add not-found handler for API routes; let Vite handle other routes
+  app.use((req, res, next) => {
+    if (req.path.startsWith("/api/")) {
+      notFoundHandler(req, res, next);
+    } else {
+      next();
+    }
+  });
+
   app.use(errorHandler);
 
   return app;
