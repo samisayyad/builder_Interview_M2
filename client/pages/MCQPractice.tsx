@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -14,82 +14,10 @@ import {
   BookOpen,
   Clock,
   Trophy,
+  Filter,
 } from "lucide-react";
 import { INTERVIEW_DOMAINS, DIFFICULTY_LEVELS } from "@/constants";
-
-interface MCQQuestion {
-  id: string;
-  domain: string;
-  difficulty: string;
-  prompt: string;
-  options: Array<{
-    value: string;
-    label: string;
-    explanation?: string;
-  }>;
-  correctOption: string;
-  explanation: string;
-}
-
-const sampleQuestions: MCQQuestion[] = [
-  {
-    id: "1",
-    domain: "Software Development",
-    difficulty: "intermediate",
-    prompt: "What is the time complexity of binary search?",
-    options: [
-      { value: "a", label: "O(n)" },
-      { value: "b", label: "O(log n)" },
-      { value: "c", label: "O(n²)" },
-      { value: "d", label: "O(1)" },
-    ],
-    correctOption: "b",
-    explanation:
-      "Binary search divides the search space in half with each iteration, resulting in O(log n) time complexity.",
-  },
-  {
-    id: "2",
-    domain: "Data Science",
-    difficulty: "advanced",
-    prompt: "Which of the following is NOT a property of the normal distribution?",
-    options: [
-      {
-        value: "a",
-        label: "It is symmetric around the mean",
-      },
-      {
-        value: "b",
-        label: "It has exactly 2 modes",
-      },
-      {
-        value: "c",
-        label: "The area under the curve equals 1",
-      },
-      {
-        value: "d",
-        label: "It is defined by mean and standard deviation",
-      },
-    ],
-    correctOption: "b",
-    explanation:
-      "The normal distribution is unimodal (has one mode), not bimodal. All other properties are correct.",
-  },
-  {
-    id: "3",
-    domain: "System Design",
-    difficulty: "advanced",
-    prompt: "In CAP theorem, what does 'C' stand for?",
-    options: [
-      { value: "a", label: "Consistency" },
-      { value: "b", label: "Compatibility" },
-      { value: "c", label: "Complexity" },
-      { value: "d", label: "Concurrency" },
-    ],
-    correctOption: "a",
-    explanation:
-      "CAP theorem states that a distributed system can guarantee only two of three properties: Consistency, Availability, and Partition tolerance.",
-  },
-];
+import { mcqQuestions, MCQQuestion } from "@/data/mcq-questions";
 
 interface Answer {
   questionId: string;
@@ -98,7 +26,15 @@ interface Answer {
   timeSpent: number;
 }
 
+interface MCQSession {
+  domain: string;
+  difficulty: string;
+}
+
 export default function MCQPractice() {
+  const [sessionStarted, setSessionStarted] = useState(false);
+  const [selectedDomain, setSelectedDomain] = useState<string>("");
+  const [selectedDifficulty, setSelectedDifficulty] = useState<string>("intermediate");
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [answers, setAnswers] = useState<Answer[]>([]);
@@ -107,7 +43,16 @@ export default function MCQPractice() {
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [startTime, setStartTime] = useState<number>(0);
 
-  const currentQuestion = sampleQuestions[currentQuestionIndex];
+  const sessionQuestions = useMemo(() => {
+    if (!selectedDomain) return [];
+    return mcqQuestions.filter(
+      (q) =>
+        q.domain === INTERVIEW_DOMAINS.find((d) => d.id === selectedDomain)
+          ?.name && q.difficulty === selectedDifficulty
+    );
+  }, [selectedDomain, selectedDifficulty]);
+
+  const currentQuestion = sessionQuestions[currentQuestionIndex];
   const answeredCount = answers.length;
   const correctCount = answers.filter((a) => a.isCorrect).length;
 
@@ -183,6 +128,134 @@ export default function MCQPractice() {
         return "bg-gray-100 text-gray-800";
     }
   };
+
+  const handleStartSession = () => {
+    if (selectedDomain) {
+      setSessionStarted(true);
+      setCurrentQuestionIndex(0);
+      setAnswers([]);
+      setStartTime(Date.now());
+    }
+  };
+
+  // Session selection screen
+  if (!sessionStarted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4 pt-24">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12 space-y-3">
+            <h1 className="text-4xl md:text-5xl font-bold text-slate-900">
+              MCQ Practice
+            </h1>
+            <p className="text-lg text-slate-600">
+              Select a domain and difficulty to start practicing
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* Domain Selection */}
+            <div className="lg:col-span-2">
+              <Card className="p-6 space-y-4">
+                <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+                  <Filter className="w-5 h-5" />
+                  Select Domain
+                </h2>
+                <div className="grid md:grid-cols-2 gap-4">
+                  {INTERVIEW_DOMAINS.map((domain) => (
+                    <button
+                      key={domain.id}
+                      onClick={() => setSelectedDomain(domain.id)}
+                      className={`p-4 rounded-lg border-2 transition-all text-left ${
+                        selectedDomain === domain.id
+                          ? "border-blue-400 bg-blue-50"
+                          : "border-slate-200 hover:border-blue-300"
+                      }`}
+                    >
+                      <h3 className="font-bold text-slate-900">
+                        {domain.name}
+                      </h3>
+                      <p className="text-sm text-slate-600">
+                        {
+                          mcqQuestions.filter(
+                            (q) => q.domain === domain.name
+                          ).length
+                        }{" "}
+                        questions
+                      </p>
+                    </button>
+                  ))}
+                </div>
+              </Card>
+            </div>
+
+            {/* Sidebar - Difficulty & Info */}
+            <div className="space-y-6">
+              <Card className="p-6 space-y-4">
+                <h3 className="font-bold text-slate-900">Difficulty</h3>
+                <div className="space-y-3">
+                  {DIFFICULTY_LEVELS.map((level) => (
+                    <button
+                      key={level.value}
+                      onClick={() => setSelectedDifficulty(level.value)}
+                      className={`w-full p-3 rounded-lg border-2 text-left transition-all font-medium ${
+                        selectedDifficulty === level.value
+                          ? `border-${level.color}-400 bg-${level.color}-50 text-${level.color}-900`
+                          : "border-slate-200 bg-white text-slate-700"
+                      }`}
+                    >
+                      {level.label}
+                    </button>
+                  ))}
+                </div>
+              </Card>
+
+              {selectedDomain && (
+                <Card className="p-6 space-y-4 bg-gradient-to-br from-blue-50 to-purple-50">
+                  <h3 className="font-bold text-slate-900">Ready?</h3>
+                  <div className="space-y-2 text-sm text-slate-700">
+                    <p>
+                      • Domain:{" "}
+                      <span className="font-semibold">
+                        {INTERVIEW_DOMAINS.find((d) => d.id === selectedDomain)
+                          ?.name}
+                      </span>
+                    </p>
+                    <p>
+                      • Difficulty:{" "}
+                      <span className="font-semibold capitalize">
+                        {selectedDifficulty}
+                      </span>
+                    </p>
+                    <p>
+                      • Questions:{" "}
+                      <span className="font-semibold">
+                        {
+                          mcqQuestions.filter(
+                            (q) =>
+                              q.domain ===
+                                INTERVIEW_DOMAINS.find(
+                                  (d) => d.id === selectedDomain
+                                )?.name &&
+                              q.difficulty === selectedDifficulty
+                          ).length
+                        }
+                      </span>
+                    </p>
+                  </div>
+                  <Button
+                    onClick={handleStartSession}
+                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600"
+                  >
+                    Start Practice
+                  </Button>
+                </Card>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (sessionComplete) {
     const accuracy = Math.round((correctCount / sampleQuestions.length) * 100);
@@ -297,9 +370,29 @@ export default function MCQPractice() {
   }
 
   const currentAnswer = answers.find(
-    (a) => a.questionId === currentQuestion.id
+    (a) => a.questionId === currentQuestion?.id
   );
   const isAnswered = showExplanation;
+  const selectedDomainName = INTERVIEW_DOMAINS.find(
+    (d) => d.id === selectedDomain
+  )?.name;
+
+  if (!currentQuestion) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4 pt-24 flex items-center justify-center">
+        <Card className="p-8 text-center">
+          <p className="text-slate-600">No questions available</p>
+          <Button
+            onClick={() => setSessionStarted(false)}
+            className="mt-4"
+            variant="outline"
+          >
+            Back
+          </Button>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4 pt-24">
@@ -309,7 +402,7 @@ export default function MCQPractice() {
           <div>
             <h1 className="text-3xl font-bold text-slate-900">MCQ Practice</h1>
             <p className="text-slate-600">
-              {currentQuestion.domain} - {currentQuestion.difficulty}
+              {selectedDomainName} - {currentQuestion.difficulty}
             </p>
           </div>
           <div className="text-right">
@@ -327,14 +420,14 @@ export default function MCQPractice() {
         <Card className="p-4 mb-6">
           <div className="flex justify-between mb-2">
             <span className="text-sm font-medium text-slate-700">
-              Question {currentQuestionIndex + 1} of {sampleQuestions.length}
+              Question {currentQuestionIndex + 1} of {sessionQuestions.length}
             </span>
             <span className="text-sm font-medium text-slate-700">
               {answeredCount} Answered
             </span>
           </div>
           <Progress
-            value={(currentQuestionIndex / sampleQuestions.length) * 100}
+            value={(currentQuestionIndex / sessionQuestions.length) * 100}
             className="h-2"
           />
         </Card>
@@ -462,7 +555,7 @@ export default function MCQPractice() {
                 ) : (
                   <>
                     <Button onClick={handleNext} className="flex-1">
-                      {currentQuestionIndex === sampleQuestions.length - 1
+                      {currentQuestionIndex === sessionQuestions.length - 1
                         ? "View Results"
                         : "Next Question"}
                     </Button>
@@ -492,19 +585,19 @@ export default function MCQPractice() {
                   <div className="text-xs text-slate-600">Correct Answers</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-slate-900">
-                    {answeredCount}
-                  </div>
-                  <div className="text-xs text-slate-600">Answered</div>
-                </div>
-                {answeredCount > 0 && (
-                  <div>
-                    <div className="text-2xl font-bold text-purple-600">
-                      {Math.round((correctCount / answeredCount) * 100)}%
+                    <div className="text-2xl font-bold text-slate-900">
+                      {answeredCount}
                     </div>
-                    <div className="text-xs text-slate-600">Accuracy</div>
+                    <div className="text-xs text-slate-600">Answered</div>
                   </div>
-                )}
+                  {answeredCount > 0 && (
+                    <div>
+                      <div className="text-2xl font-bold text-purple-600">
+                        {Math.round((correctCount / answeredCount) * 100)}%
+                      </div>
+                      <div className="text-xs text-slate-600">Accuracy</div>
+                    </div>
+                  )}
               </div>
             </Card>
 
