@@ -1,5 +1,5 @@
 import type { ErrorRequestHandler } from "express";
-import { logger } from "@server/utils/logger";
+import { logger } from "../utils/logger.js";
 
 interface ApiError extends Error {
   statusCode?: number;
