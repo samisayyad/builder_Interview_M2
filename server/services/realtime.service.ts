@@ -1,4 +1,4 @@
-import { HttpError } from "@server/utils/http-error";
+import { HttpError } from "../utils/http-error.js";
 
 export class RealtimeService {
   async createHandshake(_userId: string) {
