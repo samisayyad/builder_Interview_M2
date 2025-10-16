@@ -1,7 +1,7 @@
 import type { RequestHandler } from "express";
 import { z } from "zod";
-import { interviewService } from "@server/services/interview.service";
-import { badRequest } from "@server/utils/http-error";
+import { interviewService } from "../services/interview.service.js";
+import { badRequest } from "../utils/http-error.js";
 
 const sessionSchema = z.object({
   userId: z.string().min(1),
