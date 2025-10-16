@@ -2,12 +2,12 @@ import path from "path";
 import { fileURLToPath } from "url";
 import * as express from "express";
 import { createServer as createHttpServer } from "http";
-import { createServer } from "./index";
-import { env } from "@server/config/env";
-import { connectDatabase } from "@server/config/database";
-import { initializeRedis } from "@server/config/redis";
-import { createSocketServer } from "@server/realtime/socket";
-import { logger } from "@server/utils/logger";
+import { createServer } from "./index.js";
+import { env } from "./config/env.js";
+import { connectDatabase } from "./config/database.js";
+import { initializeRedis } from "./config/redis.js";
+import { createSocketServer } from "./realtime/socket.js";
+import { logger } from "./utils/logger.js";
 
 const app = createServer();
 const port = env.port || process.env.PORT || 3000;
