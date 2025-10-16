@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { handleDemo, handleHealthCheck, handlePing } from "@server/controllers/system.controller";
+import { handleDemo, handleHealthCheck, handlePing } from "../controllers/system.controller.js";
 
 const router = Router();
 
