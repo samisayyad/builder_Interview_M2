@@ -1,5 +1,5 @@
 import type { RequestHandler } from "express";
-import { env } from "@server/config/env";
+import { env } from "../config/env.js";
 
 export const handleHealthCheck: RequestHandler = (_req, res) => {
   res.json({
