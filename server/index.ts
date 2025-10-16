@@ -26,15 +26,6 @@ export function createServer() {
   app.use(express.json({ limit: env.bodyLimit }));
   app.use(express.urlencoded({ extended: true, limit: env.bodyLimit }));
 
-  app.use(
-    rateLimit({
-      windowMs: env.rateLimitWindowMs,
-      max: env.rateLimitMax,
-      standardHeaders: true,
-      legacyHeaders: false,
-    })
-  );
-
   app.use(morgan(env.logFormat));
 
   // Only apply rate limiting in production and only to API routes
