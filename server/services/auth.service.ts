@@ -1,5 +1,5 @@
 import type { Request } from "express";
-import { HttpError } from "@server/utils/http-error";
+import { HttpError } from "../utils/http-error.js";
 
 export interface RegisterInput {
   email: string;
