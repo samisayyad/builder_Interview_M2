@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export function Hero() {
+  const navigate = useNavigate();
+
   return (
     <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
       <div className="max-w-7xl mx-auto">
@@ -20,13 +23,22 @@ export function Hero() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg group">
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg group"
+                onClick={() => navigate("/interview")}
+              >
                 Start Practicing Now
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition" />
               </Button>
-              <Button size="lg" variant="outline" className="rounded-lg">
+              <Button
+                size="lg"
+                variant="outline"
+                className="rounded-lg"
+                onClick={() => navigate("/mcq")}
+              >
                 <Play className="w-5 h-5 mr-2" />
-                Watch Demo
+                MCQ Practice
               </Button>
             </div>
 
