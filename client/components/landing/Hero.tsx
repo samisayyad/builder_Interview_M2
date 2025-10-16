@@ -26,7 +26,7 @@ export function Hero() {
               <Button
                 size="lg"
                 className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg group"
-                onClick={() => navigate("/interview")}
+                onClick={() => navigate("/interview-select")}
               >
                 Start Practicing Now
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition" />

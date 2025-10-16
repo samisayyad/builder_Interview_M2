@@ -21,7 +21,7 @@ export function CTA() {
           <Button
             size="lg"
             className="bg-white text-blue-600 hover:bg-blue-50 font-bold group"
-            onClick={() => navigate("/interview")}
+            onClick={() => navigate("/interview-select")}
           >
             Start Your First Practice
             <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition" />

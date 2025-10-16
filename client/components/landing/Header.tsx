@@ -73,7 +73,7 @@ export function Header() {
             </Button>
             <Button
               className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600"
-              onClick={() => navigate("/interview")}
+              onClick={() => navigate("/interview-select")}
             >
               Get Started
             </Button>
