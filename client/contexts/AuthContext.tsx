@@ -1,5 +1,13 @@
+// src/context/AuthContext.tsx
 import { createContext, useContext, useEffect, useState } from "react";
-import { UserProfile, AuthTokens } from "@shared/api";
+
+interface UserProfile {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  [key: string]: any;
+}
 
 interface AuthContextType {
   user: UserProfile | null;
@@ -18,38 +26,34 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
-    if (token) {
-      restoreSession();
-    } else {
-      setIsLoading(false);
-    }
+    if (token) restoreSession();
+    else setIsLoading(false);
   }, []);
 
   const restoreSession = async () => {
     try {
-      const response = await fetch("/api/auth/me", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
+      const token = localStorage.getItem("accessToken");
+      if (!token) return;
+
+      const response = await fetch(`${API_BASE}/api/auth/me`, {
+        headers: { Authorization: `Bearer ${token}` },
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        setUser(data.data);
-      } else {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-      }
+      if (!response.ok) throw new Error("Session restore failed");
+
+      const data = await response.json();
+      setUser(data.data || data.user || data);
     } catch (error) {
       console.error("Failed to restore session:", error);
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
+      logout();
     } finally {
       setIsLoading(false);
     }
@@ -58,22 +62,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch(`${API_BASE}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
       if (!response.ok) {
-        throw new Error("Login failed");
+        const errorText = await response.text();
+        throw new Error(`Login failed: ${errorText}`);
       }
 
       const data = await response.json();
-      const { accessToken, refreshToken, user: userData } = data.data;
+      const { accessToken, refreshToken, user: userData } =
+        data.data || data;
 
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
       setUser(userData);
+    } catch (error) {
+      console.error("Login error:", error);
+      throw error;
     } finally {
       setIsLoading(false);
     }
@@ -87,27 +96,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   ) => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/auth/register", {
+      const response = await fetch(`${API_BASE}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          firstName,
-          lastName,
-          password,
-        }),
+        body: JSON.stringify({ email, firstName, lastName, password }),
       });
 
       if (!response.ok) {
-        throw new Error("Registration failed");
+        const errorText = await response.text();
+        throw new Error(`Registration failed: ${errorText}`);
       }
 
       const data = await response.json();
-      const { accessToken, refreshToken, user: userData } = data.data;
+      const { accessToken, refreshToken, user: userData } =
+        data.data || data;
 
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
       setUser(userData);
+    } catch (error) {
+      console.error("Registration error:", error);
+      throw error;
     } finally {
       setIsLoading(false);
     }
@@ -120,9 +129,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const updateProfile = (profile: Partial<UserProfile>) => {
-    if (user) {
-      setUser({ ...user, ...profile });
-    }
+    if (user) setUser({ ...user, ...profile });
   };
 
   return (
