@@ -1,10 +1,10 @@
 import type { Express } from "express";
 import { Router } from "express";
-import { authRouter } from "./auth.routes";
-import { interviewRouter } from "./interview.routes";
-import { analyticsRouter } from "./analytics.routes";
-import { realtimeRouter } from "./realtime.routes";
-import { systemRouter } from "./system.routes";
+import { authRouter } from "./auth.routes.js";
+import { interviewRouter } from "./interview.routes.js";
+import { analyticsRouter } from "./analytics.routes.js";
+import { realtimeRouter } from "./realtime.routes.js";
+import { systemRouter } from "./system.routes.js";
 
 export const registerRoutes = (app: Express) => {
   const apiRouter = Router();
