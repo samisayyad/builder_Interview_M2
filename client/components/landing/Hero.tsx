@@ -18,7 +18,9 @@ export function Hero() {
                 Master Your Interview Skills
               </h1>
               <p className="text-xl text-slate-600 leading-relaxed">
-                Practice with AI-powered mock interviews, get real-time feedback on your body language, speech clarity, and confidence. Ace your dream job.
+                Practice with AI-powered mock interviews, get real-time feedback
+                on your body language, speech clarity, and confidence. Ace your
+                dream job.
               </p>
             </div>
 
@@ -66,7 +68,9 @@ export function Hero() {
                   <div className="w-16 h-16 mx-auto bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mb-4">
                     <Play className="w-8 h-8 text-white fill-white" />
                   </div>
-                  <p className="text-slate-600 font-medium">AI Interview in Action</p>
+                  <p className="text-slate-600 font-medium">
+                    AI Interview in Action
+                  </p>
                 </div>
               </div>
               <div className="mt-6 grid grid-cols-3 gap-4">

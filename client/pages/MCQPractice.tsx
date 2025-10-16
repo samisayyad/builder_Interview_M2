@@ -34,7 +34,8 @@ interface MCQSession {
 export default function MCQPractice() {
   const [sessionStarted, setSessionStarted] = useState(false);
   const [selectedDomain, setSelectedDomain] = useState<string>("");
-  const [selectedDifficulty, setSelectedDifficulty] = useState<string>("intermediate");
+  const [selectedDifficulty, setSelectedDifficulty] =
+    useState<string>("intermediate");
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [answers, setAnswers] = useState<Answer[]>([]);
@@ -47,8 +48,9 @@ export default function MCQPractice() {
     if (!selectedDomain) return [];
     return mcqQuestions.filter(
       (q) =>
-        q.domain === INTERVIEW_DOMAINS.find((d) => d.id === selectedDomain)
-          ?.name && q.difficulty === selectedDifficulty
+        q.domain ===
+          INTERVIEW_DOMAINS.find((d) => d.id === selectedDomain)?.name &&
+        q.difficulty === selectedDifficulty,
     );
   }, [selectedDomain, selectedDifficulty]);
 
@@ -176,9 +178,8 @@ export default function MCQPractice() {
                       </h3>
                       <p className="text-sm text-slate-600">
                         {
-                          mcqQuestions.filter(
-                            (q) => q.domain === domain.name
-                          ).length
+                          mcqQuestions.filter((q) => q.domain === domain.name)
+                            .length
                         }{" "}
                         questions
                       </p>
@@ -216,8 +217,10 @@ export default function MCQPractice() {
                     <p>
                       • Domain:{" "}
                       <span className="font-semibold">
-                        {INTERVIEW_DOMAINS.find((d) => d.id === selectedDomain)
-                          ?.name}
+                        {
+                          INTERVIEW_DOMAINS.find((d) => d.id === selectedDomain)
+                            ?.name
+                        }
                       </span>
                     </p>
                     <p>
@@ -234,9 +237,8 @@ export default function MCQPractice() {
                             (q) =>
                               q.domain ===
                                 INTERVIEW_DOMAINS.find(
-                                  (d) => d.id === selectedDomain
-                                )?.name &&
-                              q.difficulty === selectedDifficulty
+                                  (d) => d.id === selectedDomain,
+                                )?.name && q.difficulty === selectedDifficulty,
                           ).length
                         }
                       </span>
@@ -350,13 +352,13 @@ export default function MCQPractice() {
 
             <div className="flex gap-3 flex-col sm:flex-row">
               <Button
-                onClick={() => window.location.href = "/mcq"}
+                onClick={() => (window.location.href = "/mcq")}
                 className="flex-1"
               >
                 Try Another Set
               </Button>
               <Button
-                onClick={() => window.location.href = "/"}
+                onClick={() => (window.location.href = "/")}
                 variant="outline"
                 className="flex-1"
               >
@@ -370,11 +372,11 @@ export default function MCQPractice() {
   }
 
   const currentAnswer = answers.find(
-    (a) => a.questionId === currentQuestion?.id
+    (a) => a.questionId === currentQuestion?.id,
   );
   const isAnswered = showExplanation;
   const selectedDomainName = INTERVIEW_DOMAINS.find(
-    (d) => d.id === selectedDomain
+    (d) => d.id === selectedDomain,
   )?.name;
 
   if (!currentQuestion) {
@@ -445,7 +447,10 @@ export default function MCQPractice() {
 
               {/* Options */}
               <div className="space-y-3">
-                <RadioGroup value={selectedOption} onValueChange={handleSelectOption}>
+                <RadioGroup
+                  value={selectedOption}
+                  onValueChange={handleSelectOption}
+                >
                   {currentQuestion.options.map((option) => {
                     const isSelected = selectedOption === option.value;
                     const isCorrectOption =
@@ -585,19 +590,19 @@ export default function MCQPractice() {
                   <div className="text-xs text-slate-600">Correct Answers</div>
                 </div>
                 <div>
-                    <div className="text-2xl font-bold text-slate-900">
-                      {answeredCount}
-                    </div>
-                    <div className="text-xs text-slate-600">Answered</div>
+                  <div className="text-2xl font-bold text-slate-900">
+                    {answeredCount}
                   </div>
-                  {answeredCount > 0 && (
-                    <div>
-                      <div className="text-2xl font-bold text-purple-600">
-                        {Math.round((correctCount / answeredCount) * 100)}%
-                      </div>
-                      <div className="text-xs text-slate-600">Accuracy</div>
+                  <div className="text-xs text-slate-600">Answered</div>
+                </div>
+                {answeredCount > 0 && (
+                  <div>
+                    <div className="text-2xl font-bold text-purple-600">
+                      {Math.round((correctCount / answeredCount) * 100)}%
                     </div>
-                  )}
+                    <div className="text-xs text-slate-600">Accuracy</div>
+                  </div>
+                )}
               </div>
             </Card>
 

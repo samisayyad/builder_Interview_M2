@@ -9,7 +9,8 @@ import { ChevronRight } from "lucide-react";
 
 export default function InterviewDomainSelect() {
   const [selectedDomain, setSelectedDomain] = useState<string>("");
-  const [selectedDifficulty, setSelectedDifficulty] = useState<string>("intermediate");
+  const [selectedDifficulty, setSelectedDifficulty] =
+    useState<string>("intermediate");
   const navigate = useNavigate();
 
   const handleStartInterview = () => {
@@ -24,7 +25,7 @@ export default function InterviewDomainSelect() {
   };
 
   const selectedDomainData = INTERVIEW_DOMAINS.find(
-    (d) => d.id === selectedDomain
+    (d) => d.id === selectedDomain,
   );
 
   return (
@@ -36,7 +37,8 @@ export default function InterviewDomainSelect() {
             Choose Your Interview Domain
           </h1>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Select the domain you want to practice and difficulty level to get started
+            Select the domain you want to practice and difficulty level to get
+            started
           </p>
         </div>
 
@@ -50,10 +52,9 @@ export default function InterviewDomainSelect() {
 
               <div className="grid md:grid-cols-2 gap-4">
                 {INTERVIEW_DOMAINS.map((domain) => {
-                  const IconComponent =
-                    Icons[domain.icon as keyof typeof Icons] as
-                      | React.ComponentType<any>
-                      | undefined;
+                  const IconComponent = Icons[
+                    domain.icon as keyof typeof Icons
+                  ] as React.ComponentType<any> | undefined;
                   const isSelected = selectedDomain === domain.id;
 
                   return (
@@ -69,26 +70,26 @@ export default function InterviewDomainSelect() {
                       <div className="flex items-start gap-3">
                         <div
                           className={`p-3 rounded-lg ${
-                            isSelected
-                              ? "bg-blue-200"
-                              : "bg-slate-100"
+                            isSelected ? "bg-blue-200" : "bg-slate-100"
                           }`}
                         >
                           {IconComponent ? (
                             <IconComponent
                               className={`w-6 h-6 ${
-                                isSelected
-                                  ? "text-blue-600"
-                                  : "text-slate-600"
+                                isSelected ? "text-blue-600" : "text-slate-600"
                               }`}
                             />
                           ) : null}
                         </div>
                         <div className="flex-1">
-                          <h3 className={`font-bold ${isSelected ? "text-blue-900" : "text-slate-900"}`}>
+                          <h3
+                            className={`font-bold ${isSelected ? "text-blue-900" : "text-slate-900"}`}
+                          >
                             {domain.name}
                           </h3>
-                          <p className={`text-sm ${isSelected ? "text-blue-700" : "text-slate-600"}`}>
+                          <p
+                            className={`text-sm ${isSelected ? "text-blue-700" : "text-slate-600"}`}
+                          >
                             {domain.slug}
                           </p>
                         </div>
@@ -145,16 +146,16 @@ export default function InterviewDomainSelect() {
                     <Badge
                       className={`bg-${
                         DIFFICULTY_LEVELS.find(
-                          (d) => d.value === selectedDifficulty
+                          (d) => d.value === selectedDifficulty,
                         )?.color || "slate"
                       }-100 text-${
                         DIFFICULTY_LEVELS.find(
-                          (d) => d.value === selectedDifficulty
+                          (d) => d.value === selectedDifficulty,
                         )?.color || "slate"
                       }-800`}
                     >
                       {DIFFICULTY_LEVELS.find(
-                        (d) => d.value === selectedDifficulty
+                        (d) => d.value === selectedDifficulty,
                       )?.label || "Select"}
                     </Badge>
                   </div>

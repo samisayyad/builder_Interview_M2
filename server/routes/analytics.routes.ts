@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { handleGetDashboardAnalytics, handleGetSessionAnalytics } from "../controllers/analytics.controller.js";
+import {
+  handleGetDashboardAnalytics,
+  handleGetSessionAnalytics,
+} from "../controllers/analytics.controller.js";
 
 const router = Router();
 

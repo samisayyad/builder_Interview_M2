@@ -31,7 +31,7 @@ export default function Login() {
       navigate(location.state?.from || "/dashboard");
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Login failed. Please try again."
+        err instanceof Error ? err.message : "Login failed. Please try again.",
       );
     } finally {
       setIsLoading(false);
@@ -49,7 +49,9 @@ export default function Login() {
         {error && (
           <Alert className="border-red-200 bg-red-50">
             <AlertCircle className="h-4 w-4 text-red-600" />
-            <AlertDescription className="text-red-800">{error}</AlertDescription>
+            <AlertDescription className="text-red-800">
+              {error}
+            </AlertDescription>
           </Alert>
         )}
 
@@ -111,10 +113,14 @@ export default function Login() {
         <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg text-sm space-y-2">
           <p className="font-medium text-blue-900">Demo Credentials:</p>
           <p className="text-blue-800">
-            Email: <code className="bg-blue-100 px-2 py-1 rounded">demo@intervi.com</code>
+            Email:{" "}
+            <code className="bg-blue-100 px-2 py-1 rounded">
+              demo@intervi.com
+            </code>
           </p>
           <p className="text-blue-800">
-            Password: <code className="bg-blue-100 px-2 py-1 rounded">demo123</code>
+            Password:{" "}
+            <code className="bg-blue-100 px-2 py-1 rounded">demo123</code>
           </p>
         </div>
       </Card>

@@ -66,7 +66,8 @@ export const mcqQuestions: MCQQuestion[] = [
     id: "ds-1",
     domain: "Data Science",
     difficulty: "beginner",
-    prompt: "Which of the following is NOT a property of the normal distribution?",
+    prompt:
+      "Which of the following is NOT a property of the normal distribution?",
     options: [
       { value: "a", label: "It is symmetric around the mean" },
       { value: "b", label: "It has exactly 2 modes" },
@@ -97,7 +98,8 @@ export const mcqQuestions: MCQQuestion[] = [
     id: "ds-3",
     domain: "Data Science",
     difficulty: "advanced",
-    prompt: "Which technique is used to handle multicollinearity in regression?",
+    prompt:
+      "Which technique is used to handle multicollinearity in regression?",
     options: [
       { value: "a", label: "Ridge Regression" },
       { value: "b", label: "Standardization" },
@@ -147,7 +149,10 @@ export const mcqQuestions: MCQQuestion[] = [
     prompt: "What is the fundamental difference between bagging and boosting?",
     options: [
       { value: "a", label: "Bagging is sequential; boosting is parallel" },
-      { value: "b", label: "Boosting focuses on correcting misclassified samples" },
+      {
+        value: "b",
+        label: "Boosting focuses on correcting misclassified samples",
+      },
       { value: "c", label: "Bagging uses different algorithms" },
       { value: "d", label: "There is no difference" },
     ],
@@ -288,7 +293,8 @@ export const mcqQuestions: MCQQuestion[] = [
     id: "sys-3",
     domain: "System Design",
     difficulty: "advanced",
-    prompt: "What is the primary benefit of using a message queue in system design?",
+    prompt:
+      "What is the primary benefit of using a message queue in system design?",
     options: [
       { value: "a", label: "Reduces database size" },
       { value: "b", label: "Decouples services and handles async processing" },
@@ -338,7 +344,10 @@ export const mcqQuestions: MCQQuestion[] = [
     prompt: "What is the primary purpose of infrastructure as code?",
     options: [
       { value: "a", label: "Replace developers" },
-      { value: "b", label: "Version control and automate infrastructure setup" },
+      {
+        value: "b",
+        label: "Version control and automate infrastructure setup",
+      },
       { value: "c", label: "Reduce security" },
       { value: "d", label: "Eliminate testing" },
     ],
@@ -386,7 +395,10 @@ export const mcqQuestions: MCQQuestion[] = [
     prompt: "What is the difference between black box and white box testing?",
     options: [
       { value: "a", label: "Black box is faster" },
-      { value: "b", label: "White box tests code; black box tests functionality" },
+      {
+        value: "b",
+        label: "White box tests code; black box tests functionality",
+      },
       { value: "c", label: "They test different systems" },
       { value: "d", label: "There is no difference" },
     ],
@@ -433,7 +445,10 @@ export const mcqQuestions: MCQQuestion[] = [
     prompt: "What is the difference between ACID and BASE consistency models?",
     options: [
       { value: "a", label: "ACID is faster" },
-      { value: "b", label: "ACID prioritizes consistency; BASE prioritizes availability" },
+      {
+        value: "b",
+        label: "ACID prioritizes consistency; BASE prioritizes availability",
+      },
       { value: "c", label: "They are the same" },
       { value: "d", label: "BASE is more secure" },
     ],
@@ -450,7 +465,10 @@ export const mcqQuestions: MCQQuestion[] = [
     prompt: "What does the virtual DOM do in React?",
     options: [
       { value: "a", label: "Encrypts data" },
-      { value: "b", label: "Improves performance by minimizing real DOM updates" },
+      {
+        value: "b",
+        label: "Improves performance by minimizing real DOM updates",
+      },
       { value: "c", label: "Stores user data" },
       { value: "d", label: "Handles API calls" },
     ],
@@ -524,7 +542,8 @@ export const mcqQuestions: MCQQuestion[] = [
     id: "backend-3",
     domain: "Backend Development",
     difficulty: "advanced",
-    prompt: "What is the difference between stateless and stateful architectures?",
+    prompt:
+      "What is the difference between stateless and stateful architectures?",
     options: [
       { value: "a", label: "Stateless is always faster" },
       { value: "b", label: "Stateful maintains state; stateless doesn't" },

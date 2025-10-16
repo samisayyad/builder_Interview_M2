@@ -26,7 +26,10 @@ export class InterviewService {
   }
 
   async updateMetrics(_input: UpdateSessionMetricsInput) {
-    throw new HttpError(501, "Interview session metrics update not implemented");
+    throw new HttpError(
+      501,
+      "Interview session metrics update not implemented",
+    );
   }
 }
 

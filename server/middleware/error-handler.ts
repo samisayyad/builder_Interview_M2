@@ -12,7 +12,10 @@ export const errorHandler: ErrorRequestHandler = (error, _req, res, _next) => {
   if (status >= 500) {
     logger.error("Unhandled server error", error as Error);
   } else {
-    logger.warn(`Handled API error with status ${status}`, (error as ApiError).details ?? error);
+    logger.warn(
+      `Handled API error with status ${status}`,
+      (error as ApiError).details ?? error,
+    );
   }
 
   res.status(status).json({

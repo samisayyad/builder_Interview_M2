@@ -314,10 +314,7 @@ export default function Dashboard() {
               <Zap className="w-4 h-4 mr-2" />
               Practice Interview
             </Button>
-            <Button
-              onClick={() => navigate("/mcq")}
-              variant="outline"
-            >
+            <Button onClick={() => navigate("/mcq")} variant="outline">
               <Target className="w-4 h-4 mr-2" />
               MCQ Practice
             </Button>

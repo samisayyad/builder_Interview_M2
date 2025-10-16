@@ -5,6 +5,7 @@
 Base URL: `/api`
 
 All endpoints require:
+
 - Content-Type: `application/json`
 - Authentication: JWT token in Authorization header (except `/auth/*`)
 
@@ -381,19 +382,19 @@ API endpoints are rate-limited to prevent abuse:
 Connect to `/interview` namespace for real-time updates:
 
 ```javascript
-const socket = io('/interview', {
-  auth: { userId: 'user-id' }
+const socket = io("/interview", {
+  auth: { userId: "user-id" },
 });
 
 // Listen for real-time metrics
-socket.on('metrics:update', (data) => {
-  console.log('Updated metrics:', data);
+socket.on("metrics:update", (data) => {
+  console.log("Updated metrics:", data);
 });
 
 // Send analysis data
-socket.emit('metrics:send', {
+socket.emit("metrics:send", {
   postureScore: 85,
-  eyeContactScore: 80
+  eyeContactScore: 80,
 });
 ```
 

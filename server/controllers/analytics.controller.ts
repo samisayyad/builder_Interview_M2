@@ -2,7 +2,11 @@ import type { RequestHandler } from "express";
 import { analyticsService } from "../services/analytics.service.js";
 import { badRequest } from "../utils/http-error.js";
 
-export const handleGetDashboardAnalytics: RequestHandler = async (req, res, next) => {
+export const handleGetDashboardAnalytics: RequestHandler = async (
+  req,
+  res,
+  next,
+) => {
   try {
     const userId = req.query.userId;
     if (typeof userId !== "string" || userId.length === 0) {
@@ -16,7 +20,11 @@ export const handleGetDashboardAnalytics: RequestHandler = async (req, res, next
   }
 };
 
-export const handleGetSessionAnalytics: RequestHandler = async (req, res, next) => {
+export const handleGetSessionAnalytics: RequestHandler = async (
+  req,
+  res,
+  next,
+) => {
   try {
     const { sessionId } = req.params;
     if (!sessionId) {

@@ -44,7 +44,9 @@ export default function Register() {
       navigate("/dashboard");
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Registration failed. Please try again."
+        err instanceof Error
+          ? err.message
+          : "Registration failed. Please try again.",
       );
     } finally {
       setIsLoading(false);
@@ -62,7 +64,9 @@ export default function Register() {
         {error && (
           <Alert className="border-red-200 bg-red-50">
             <AlertCircle className="h-4 w-4 text-red-600" />
-            <AlertDescription className="text-red-800">{error}</AlertDescription>
+            <AlertDescription className="text-red-800">
+              {error}
+            </AlertDescription>
           </Alert>
         )}
 

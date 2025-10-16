@@ -134,9 +134,7 @@ export default function Index() {
 
             {/* Recommendation */}
             <Card className="p-8 bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200 space-y-4">
-              <h3 className="text-2xl font-bold text-slate-900">
-                Next Steps
-              </h3>
+              <h3 className="text-2xl font-bold text-slate-900">Next Steps</h3>
               <p className="text-slate-700">
                 Based on your progress, we recommend focusing on areas where you
                 scored below 80%. Try the MCQ practice to strengthen your

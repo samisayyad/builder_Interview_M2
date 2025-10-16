@@ -18,7 +18,7 @@ interface AuthContextType {
     email: string,
     firstName: string,
     lastName: string,
-    password: string
+    password: string,
   ) => Promise<void>;
   logout: () => void;
   updateProfile: (profile: Partial<UserProfile>) => void;
@@ -74,8 +74,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       const data = await response.json();
-      const { accessToken, refreshToken, user: userData } =
-        data.data || data;
+      const { accessToken, refreshToken, user: userData } = data.data || data;
 
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
@@ -93,11 +92,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     email: string,
     firstName: string,
     lastName: string,
-    password: string
+    password: string,
   ) => {
     setIsLoading(true);
     try {
-      console.log(`🔹 Sending register request to: ${API_BASE}/api/auth/register`);
+      console.log(
+        `🔹 Sending register request to: ${API_BASE}/api/auth/register`,
+      );
       const response = await fetch(`${API_BASE}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -110,8 +111,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       const data = await response.json();
-      const { accessToken, refreshToken, user: userData } =
-        data.data || data;
+      const { accessToken, refreshToken, user: userData } = data.data || data;
 
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);

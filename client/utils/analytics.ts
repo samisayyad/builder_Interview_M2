@@ -8,7 +8,9 @@ export interface PerformanceMetrics {
   overallPerformanceScore: number;
 }
 
-export const calculateOverallScore = (metrics: Partial<PerformanceMetrics>): number => {
+export const calculateOverallScore = (
+  metrics: Partial<PerformanceMetrics>,
+): number => {
   const weights = {
     postureScore: 0.15,
     eyeContactScore: 0.2,

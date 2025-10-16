@@ -5,7 +5,11 @@ export const ensureRedis = async () => {
   return client ?? null;
 };
 
-export const cacheJson = async <T>(key: string, value: T, ttlSeconds: number) => {
+export const cacheJson = async <T>(
+  key: string,
+  value: T,
+  ttlSeconds: number,
+) => {
   const client = getRedisClient();
   await client.set(key, JSON.stringify(value), {
     EX: ttlSeconds,

@@ -10,33 +10,71 @@ export function Footer() {
               </div>
               <span className="font-bold text-white">Intervi</span>
             </div>
-            <p className="text-sm">Master your interview skills with AI-powered practice.</p>
+            <p className="text-sm">
+              Master your interview skills with AI-powered practice.
+            </p>
           </div>
 
           <div>
             <h3 className="font-bold text-white mb-4">Product</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white transition">Features</a></li>
-              <li><a href="#" className="hover:text-white transition">Pricing</a></li>
-              <li><a href="#" className="hover:text-white transition">Domains</a></li>
+              <li>
+                <a href="#" className="hover:text-white transition">
+                  Features
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-white transition">
+                  Pricing
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-white transition">
+                  Domains
+                </a>
+              </li>
             </ul>
           </div>
 
           <div>
             <h3 className="font-bold text-white mb-4">Company</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white transition">About</a></li>
-              <li><a href="#" className="hover:text-white transition">Blog</a></li>
-              <li><a href="#" className="hover:text-white transition">Contact</a></li>
+              <li>
+                <a href="#" className="hover:text-white transition">
+                  About
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-white transition">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-white transition">
+                  Contact
+                </a>
+              </li>
             </ul>
           </div>
 
           <div>
             <h3 className="font-bold text-white mb-4">Legal</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white transition">Privacy</a></li>
-              <li><a href="#" className="hover:text-white transition">Terms</a></li>
-              <li><a href="#" className="hover:text-white transition">Contact Us</a></li>
+              <li>
+                <a href="#" className="hover:text-white transition">
+                  Privacy
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-white transition">
+                  Terms
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-white transition">
+                  Contact Us
+                </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -47,9 +85,15 @@ export function Footer() {
               © 2024 Intervi. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm">
-              <a href="#" className="hover:text-white transition">Twitter</a>
-              <a href="#" className="hover:text-white transition">LinkedIn</a>
-              <a href="#" className="hover:text-white transition">GitHub</a>
+              <a href="#" className="hover:text-white transition">
+                Twitter
+              </a>
+              <a href="#" className="hover:text-white transition">
+                LinkedIn
+              </a>
+              <a href="#" className="hover:text-white transition">
+                GitHub
+              </a>
             </div>
           </div>
         </div>

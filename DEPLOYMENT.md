@@ -30,6 +30,7 @@ pnpm build
 ```
 
 Build outputs:
+
 - Frontend: `dist/spa/` (static HTML/JS/CSS)
 - Backend: `dist/server/` (Node.js application)
 
@@ -142,7 +143,7 @@ CMD ["pnpm", "start"]
 **Docker Compose:**
 
 ```yaml
-version: '3.9'
+version: "3.9"
 
 services:
   app:

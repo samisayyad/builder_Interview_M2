@@ -23,13 +23,22 @@ export function Header() {
         </div>
 
         <div className="hidden md:flex items-center gap-8">
-          <a href="#features" className="text-slate-600 hover:text-slate-900 transition">
+          <a
+            href="#features"
+            className="text-slate-600 hover:text-slate-900 transition"
+          >
             Features
           </a>
-          <a href="#how-it-works" className="text-slate-600 hover:text-slate-900 transition">
+          <a
+            href="#how-it-works"
+            className="text-slate-600 hover:text-slate-900 transition"
+          >
             How it Works
           </a>
-          <a href="#domains" className="text-slate-600 hover:text-slate-900 transition">
+          <a
+            href="#domains"
+            className="text-slate-600 hover:text-slate-900 transition"
+          >
             Domains
           </a>
         </div>
@@ -44,27 +53,29 @@ export function Header() {
           </Button>
         </div>
 
-        <button
-          className="md:hidden"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? (
-            <X className="w-6 h-6" />
-          ) : (
-            <Menu className="w-6 h-6" />
-          )}
+        <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
+          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </nav>
 
       {isOpen && (
         <div className="md:hidden bg-white border-b border-slate-200 p-4 space-y-4">
-          <a href="#features" className="block text-slate-600 hover:text-slate-900">
+          <a
+            href="#features"
+            className="block text-slate-600 hover:text-slate-900"
+          >
             Features
           </a>
-          <a href="#how-it-works" className="block text-slate-600 hover:text-slate-900">
+          <a
+            href="#how-it-works"
+            className="block text-slate-600 hover:text-slate-900"
+          >
             How it Works
           </a>
-          <a href="#domains" className="block text-slate-600 hover:text-slate-900">
+          <a
+            href="#domains"
+            className="block text-slate-600 hover:text-slate-900"
+          >
             Domains
           </a>
           <div className="flex gap-3">

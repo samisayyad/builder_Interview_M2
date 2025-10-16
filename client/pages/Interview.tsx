@@ -81,7 +81,8 @@ const domainQuestions: Record<string, Question[]> = {
     {
       id: "3",
       text: "Describe your experience with data visualization.",
-      followUp: "How do you communicate findings to non-technical stakeholders?",
+      followUp:
+        "How do you communicate findings to non-technical stakeholders?",
       domain: "ds",
     },
   ],
@@ -171,14 +172,13 @@ export default function Interview() {
     Array<{ metric: string; score: number }>
   >([]);
   const [sessionResults, setSessionResults] = useState<InterviewResult | null>(
-    null
+    null,
   );
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
   const questions =
-    domainQuestions[state.selectedDomain] ||
-    domainQuestions.sde;
+    domainQuestions[state.selectedDomain] || domainQuestions.sde;
   const currentQuestion = questions[currentQuestionIndex];
   const selectedDomainName =
     INTERVIEW_DOMAINS.find((d) => d.id === state.selectedDomain)?.name ||
@@ -354,9 +354,7 @@ export default function Interview() {
                 ✨ Personalized Recommendations
               </h3>
               <ul className="text-green-800 space-y-2">
-                <li>
-                  • Maintain more consistent eye contact with the camera
-                </li>
+                <li>• Maintain more consistent eye contact with the camera</li>
                 <li>• Reduce filler words like "um" and "uh"</li>
                 <li>• Speak more slowly and deliberately</li>
                 <li>• Take a moment to think before answering</li>

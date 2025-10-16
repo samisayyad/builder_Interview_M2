@@ -13,7 +13,8 @@ export function CTA() {
             Ready to Ace Your Interviews?
           </h2>
           <p className="text-xl text-blue-100 max-w-2xl mx-auto">
-            Join thousands of professionals who've mastered their interview skills with Intervi
+            Join thousands of professionals who've mastered their interview
+            skills with Intervi
           </p>
         </div>
 

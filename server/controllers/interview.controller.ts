@@ -61,7 +61,11 @@ export const handleGetSession: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const handleUpdateSessionMetrics: RequestHandler = async (req, res, next) => {
+export const handleUpdateSessionMetrics: RequestHandler = async (
+  req,
+  res,
+  next,
+) => {
   try {
     const { sessionId } = req.params;
     if (!sessionId) {
@@ -69,7 +73,10 @@ export const handleUpdateSessionMetrics: RequestHandler = async (req, res, next)
     }
 
     const payload = parse(metricsSchema, req.body);
-    const result = await interviewService.updateMetrics({ sessionId, metrics: payload.metrics });
+    const result = await interviewService.updateMetrics({
+      sessionId,
+      metrics: payload.metrics,
+    });
     res.status(200).json(result);
   } catch (error) {
     next(error);

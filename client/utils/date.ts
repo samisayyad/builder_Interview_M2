@@ -1,6 +1,15 @@
-import { format, formatDistanceToNow, isPast, isFuture, differenceInMinutes } from "date-fns";
+import {
+  format,
+  formatDistanceToNow,
+  isPast,
+  isFuture,
+  differenceInMinutes,
+} from "date-fns";
 
-export const formatDate = (date: string | Date, formatStr: string = "PPP"): string => {
+export const formatDate = (
+  date: string | Date,
+  formatStr: string = "PPP",
+): string => {
   return format(new Date(date), formatStr);
 };
 

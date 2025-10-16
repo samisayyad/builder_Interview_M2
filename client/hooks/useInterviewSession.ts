@@ -16,7 +16,9 @@ export const useInterviewSessions = (userId: string) => {
   return useQuery({
     queryKey: ["interviews", userId],
     queryFn: () =>
-      apiClient.get<InterviewSession[]>(`/api/interviews/sessions?userId=${userId}`),
+      apiClient.get<InterviewSession[]>(
+        `/api/interviews/sessions?userId=${userId}`,
+      ),
     enabled: !!userId,
   });
 };
@@ -35,17 +37,21 @@ export const useCreateInterviewSession = () => {
 export const useGetInterviewSession = (sessionId: string | null) => {
   return useQuery({
     queryKey: ["interview", sessionId],
-    queryFn: () => apiClient.get<InterviewSession>(`/api/interviews/sessions/${sessionId!}`),
+    queryFn: () =>
+      apiClient.get<InterviewSession>(`/api/interviews/sessions/${sessionId!}`),
     enabled: !!sessionId,
   });
 };
 
 export const useUpdateSessionMetrics = () => {
   return useMutation({
-    mutationFn: (payload: { sessionId: string; metrics: Record<string, unknown> }) =>
+    mutationFn: (payload: {
+      sessionId: string;
+      metrics: Record<string, unknown>;
+    }) =>
       apiClient.patch<InterviewSession>(
         `/api/interviews/sessions/${payload.sessionId}/metrics`,
-        { metrics: payload.metrics }
+        { metrics: payload.metrics },
       ),
   });
 };

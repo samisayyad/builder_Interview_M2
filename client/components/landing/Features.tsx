@@ -1,55 +1,58 @@
-import { 
-  Brain, 
-  Zap, 
-  BarChart3, 
-  Mic, 
-  Eye, 
+import {
+  Brain,
+  Zap,
+  BarChart3,
+  Mic,
+  Eye,
   Award,
   MessageSquare,
-  Repeat2
+  Repeat2,
 } from "lucide-react";
 
 const features = [
   {
     icon: Brain,
     title: "AI-Powered Analysis",
-    description: "Real-time analysis of your performance with advanced AI algorithms"
+    description:
+      "Real-time analysis of your performance with advanced AI algorithms",
   },
   {
     icon: Eye,
     title: "Body Language Detection",
-    description: "Track posture, eye contact, hand gestures, and overall presence"
+    description:
+      "Track posture, eye contact, hand gestures, and overall presence",
   },
   {
     icon: Mic,
     title: "Speech Analysis",
-    description: "Clarity, pace, confidence level, and filler word detection"
+    description: "Clarity, pace, confidence level, and filler word detection",
   },
   {
     icon: BarChart3,
     title: "Performance Analytics",
-    description: "Comprehensive reports with detailed metrics and improvements"
+    description: "Comprehensive reports with detailed metrics and improvements",
   },
   {
     icon: Award,
     title: "Gamification",
-    description: "Achievements, streaks, and leaderboards to keep you motivated"
+    description:
+      "Achievements, streaks, and leaderboards to keep you motivated",
   },
   {
     icon: Repeat2,
     title: "Practice Sessions",
-    description: "Unlimited mock interviews across 15+ domains"
+    description: "Unlimited mock interviews across 15+ domains",
   },
   {
     icon: MessageSquare,
     title: "Personalized Feedback",
-    description: "AI-generated suggestions for continuous improvement"
+    description: "AI-generated suggestions for continuous improvement",
   },
   {
     icon: Zap,
     title: "Real-time Insights",
-    description: "Get instant feedback during and after your practice session"
-  }
+    description: "Get instant feedback during and after your practice session",
+  },
 ];
 
 export function Features() {
@@ -79,9 +82,7 @@ export function Features() {
                 <h3 className="font-bold text-slate-900 mb-2">
                   {feature.title}
                 </h3>
-                <p className="text-slate-600 text-sm">
-                  {feature.description}
-                </p>
+                <p className="text-slate-600 text-sm">{feature.description}</p>
               </div>
             );
           })}

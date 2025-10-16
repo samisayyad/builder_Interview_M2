@@ -5,6 +5,7 @@
 Intervi is a production-ready AI-powered interview practice platform built with a modern tech stack.
 
 **Tech Stack:**
+
 - **Frontend:** React 18, TypeScript, Vite, Tailwind CSS, Framer Motion
 - **Backend:** Node.js, Express, MongoDB, Socket.io, Redis
 - **AI/ML:** TensorFlow.js, MediaPipe, Face-api.js, Web Speech API
@@ -56,6 +57,7 @@ pnpm dev
 ```
 
 This starts:
+
 - Vite frontend on http://localhost:8080
 - Express backend on http://localhost:8080/api
 
@@ -84,6 +86,7 @@ pnpm build
 ```
 
 This generates:
+
 - Frontend SPA: `dist/spa/`
 - Backend server: `dist/server/`
 
@@ -134,6 +137,7 @@ shared/
 ### MongoDB Setup
 
 #### Local Development
+
 ```bash
 # Install MongoDB Community Edition
 # macOS:
@@ -147,6 +151,7 @@ brew services start mongodb-community
 ```
 
 #### Cloud (MongoDB Atlas)
+
 1. Create a free cluster at https://www.mongodb.com/cloud/atlas
 2. Set connection string in `MONGODB_URI`
 

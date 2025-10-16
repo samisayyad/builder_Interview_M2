@@ -3,7 +3,10 @@ import * as Icons from "lucide-react";
 
 export function Domains() {
   return (
-    <section id="domains" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-slate-50">
+    <section
+      id="domains"
+      className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-slate-50"
+    >
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16 space-y-4">
           <h2 className="text-4xl md:text-5xl font-bold text-slate-900">
@@ -16,7 +19,9 @@ export function Domains() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-4">
           {INTERVIEW_DOMAINS.map((domain) => {
-            const IconComponent = Icons[domain.icon as keyof typeof Icons] as React.ComponentType<any>;
+            const IconComponent = Icons[
+              domain.icon as keyof typeof Icons
+            ] as React.ComponentType<any>;
             return (
               <div
                 key={domain.id}
@@ -32,9 +37,7 @@ export function Domains() {
                 <h3 className="font-bold text-slate-900 text-sm mb-1">
                   {domain.name}
                 </h3>
-                <p className="text-xs text-slate-500">
-                  Practice questions
-                </p>
+                <p className="text-xs text-slate-500">Practice questions</p>
               </div>
             );
           })}

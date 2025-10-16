@@ -14,7 +14,9 @@ export const getRedisClient = () => {
 
 export const initializeRedis = async () => {
   if (!env.redisUrl) {
-    logger.warn("Redis URL not provided. Caching and pub/sub will be disabled.");
+    logger.warn(
+      "Redis URL not provided. Caching and pub/sub will be disabled.",
+    );
     return null;
   }
 

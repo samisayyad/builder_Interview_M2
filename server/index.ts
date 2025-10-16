@@ -20,7 +20,7 @@ export function createServer() {
     cors({
       origin: env.corsOrigins,
       credentials: true,
-    })
+    }),
   );
   app.use(compression());
   app.use(express.json({ limit: env.bodyLimit }));
@@ -30,12 +30,15 @@ export function createServer() {
 
   // Only apply rate limiting in production and only to API routes
   if (env.isProduction) {
-    app.use("/api/", rateLimit({
-      windowMs: env.rateLimitWindowMs,
-      max: env.rateLimitMax,
-      standardHeaders: true,
-      legacyHeaders: false,
-    }));
+    app.use(
+      "/api/",
+      rateLimit({
+        windowMs: env.rateLimitWindowMs,
+        max: env.rateLimitMax,
+        standardHeaders: true,
+        legacyHeaders: false,
+      }),
+    );
   }
 
   registerRoutes(app);
