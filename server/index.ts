@@ -37,6 +37,16 @@ export function createServer() {
 
   app.use(morgan(env.logFormat));
 
+  // Only apply rate limiting in production and only to API routes
+  if (env.isProduction) {
+    app.use("/api/", rateLimit({
+      windowMs: env.rateLimitWindowMs,
+      max: env.rateLimitMax,
+      standardHeaders: true,
+      legacyHeaders: false,
+    }));
+  }
+
   registerRoutes(app);
 
   // Only add not-found handler for API routes; let Vite handle other routes
