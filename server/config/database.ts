@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { env } from "./env";
-import { logger } from "@server/utils/logger";
+import { env } from "./env.js";
+import { logger } from "../utils/logger.js";
 
 let connectionPromise: Promise<typeof mongoose> | null = null;
 
