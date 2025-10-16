@@ -1,7 +1,7 @@
 import type { RequestHandler } from "express";
 import { z } from "zod";
-import { authService } from "@server/services/auth.service";
-import { badRequest } from "@server/utils/http-error";
+import { authService } from "../services/auth.service.js";
+import { badRequest } from "../utils/http-error.js";
 
 const registerSchema = z.object({
   email: z.string().email(),
