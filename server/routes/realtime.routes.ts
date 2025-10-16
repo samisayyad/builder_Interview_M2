@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { handleRealtimeHandshake } from "@server/controllers/realtime.controller";
+import { handleRealtimeHandshake } from "../controllers/realtime.controller.js";
 
 const router = Router();
 
