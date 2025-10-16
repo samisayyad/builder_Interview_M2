@@ -5,10 +5,10 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
-import { registerRoutes } from "@server/routes";
-import { env } from "@server/config/env";
-import { notFoundHandler } from "@server/middleware/not-found";
-import { errorHandler } from "@server/middleware/error-handler";
+import { registerRoutes } from "./routes/index.js";
+import { env } from "./config/env.js";
+import { notFoundHandler } from "./middleware/not-found.js";
+import { errorHandler } from "./middleware/error-handler.js";
 
 export function createServer() {
   const app = express();
