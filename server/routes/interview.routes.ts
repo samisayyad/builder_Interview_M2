@@ -4,7 +4,7 @@ import {
   handleGetSession,
   handleListSessions,
   handleUpdateSessionMetrics,
-} from "@server/controllers/interview.controller";
+} from "../controllers/interview.controller.js";
 
 const router = Router();
 
