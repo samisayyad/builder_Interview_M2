@@ -13,45 +13,176 @@ import {
   Clock,
   BarChart3,
   AlertCircle,
+  Volume2,
 } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { INTERVIEW_DOMAINS } from "@/constants";
 
 interface Question {
   id: string;
   text: string;
   followUp?: string;
+  domain?: string;
 }
 
-const questions: Question[] = [
-  {
-    id: "1",
-    text: "Tell me about yourself and your background.",
-    followUp: "What is your greatest strength?",
-  },
-  {
-    id: "2",
-    text: "Describe a challenging project you've worked on.",
-    followUp: "How did you overcome the challenges?",
-  },
-  {
-    id: "3",
-    text: "Why are you interested in this position?",
-    followUp: "How do you see yourself growing in this role?",
-  },
-];
+interface InterviewResult {
+  domain: string;
+  difficulty: string;
+  questions: Array<{
+    question: string;
+    transcript: string;
+    duration: number;
+    scores: {
+      posture: number;
+      eyeContact: number;
+      clarity: number;
+      confidence: number;
+      pace: number;
+    };
+  }>;
+  overallScore: number;
+  timeElapsed: number;
+}
+
+const domainQuestions: Record<string, Question[]> = {
+  sde: [
+    {
+      id: "1",
+      text: "Tell me about yourself and your software development experience.",
+      followUp: "What's your favorite programming language and why?",
+      domain: "sde",
+    },
+    {
+      id: "2",
+      text: "Describe a challenging technical problem you solved recently.",
+      followUp: "How did you approach debugging and what was the solution?",
+      domain: "sde",
+    },
+    {
+      id: "3",
+      text: "What design patterns are you familiar with?",
+      followUp: "Can you give an example of when you used one?",
+      domain: "sde",
+    },
+  ],
+  ds: [
+    {
+      id: "1",
+      text: "Tell me about your data science background and key projects.",
+      followUp: "What was the most impactful insight you derived from data?",
+      domain: "ds",
+    },
+    {
+      id: "2",
+      text: "Explain how you would approach building a predictive model.",
+      followUp: "How do you evaluate and validate your model?",
+      domain: "ds",
+    },
+    {
+      id: "3",
+      text: "Describe your experience with data visualization.",
+      followUp: "How do you communicate findings to non-technical stakeholders?",
+      domain: "ds",
+    },
+  ],
+  ml: [
+    {
+      id: "1",
+      text: "Tell me about your machine learning experience and key projects.",
+      followUp: "What was your biggest learning from a failed ML project?",
+      domain: "ml",
+    },
+    {
+      id: "2",
+      text: "Explain the difference between supervised and unsupervised learning.",
+      followUp: "Can you provide real-world examples for each?",
+      domain: "ml",
+    },
+    {
+      id: "3",
+      text: "How do you handle overfitting in your models?",
+      followUp: "What techniques do you commonly use?",
+      domain: "ml",
+    },
+  ],
+  pm: [
+    {
+      id: "1",
+      text: "Tell me about your product management background.",
+      followUp: "What was your most successful product launch?",
+      domain: "pm",
+    },
+    {
+      id: "2",
+      text: "How do you approach identifying and prioritizing features?",
+      followUp: "Can you walk me through your prioritization framework?",
+      domain: "pm",
+    },
+    {
+      id: "3",
+      text: "Describe how you work with engineering and design teams.",
+      followUp: "How do you handle disagreements?",
+      domain: "pm",
+    },
+  ],
+  ux: [
+    {
+      id: "1",
+      text: "Tell me about your UX design experience and philosophy.",
+      followUp: "What's the most important principle in your design process?",
+      domain: "ux",
+    },
+    {
+      id: "2",
+      text: "Walk me through your design process for a complex feature.",
+      followUp: "How do you validate your design decisions?",
+      domain: "ux",
+    },
+    {
+      id: "3",
+      text: "How do you balance creativity with data-driven design?",
+      followUp: "Can you give an example?",
+      domain: "ux",
+    },
+  ],
+};
 
 export default function Interview() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const state = location.state as {
+    selectedDomain: string;
+    selectedDifficulty: string;
+  };
+
+  if (!state?.selectedDomain) {
+    navigate("/interview-select");
+    return null;
+  }
+
   const [isRecording, setIsRecording] = useState(false);
   const [isCameraOn, setIsCameraOn] = useState(true);
   const [isMicOn, setIsMicOn] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [timeElapsed, setTimeElapsed] = useState(0);
+  const [questionStartTime, setQuestionStartTime] = useState(0);
+  const [transcript, setTranscript] = useState("");
   const [sessionFeedback, setSessionFeedback] = useState<
     Array<{ metric: string; score: number }>
   >([]);
+  const [sessionResults, setSessionResults] = useState<InterviewResult | null>(
+    null
+  );
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
+  const questions =
+    domainQuestions[state.selectedDomain] ||
+    domainQuestions.sde;
   const currentQuestion = questions[currentQuestionIndex];
+  const selectedDomainName =
+    INTERVIEW_DOMAINS.find((d) => d.id === state.selectedDomain)?.name ||
+    "Interview";
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -89,105 +220,170 @@ export default function Interview() {
   const handleNextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setTranscript("");
+      setQuestionStartTime(Date.now());
     } else {
       handleCompleteSession();
     }
   };
 
+  const handleAddTranscript = (text: string) => {
+    setTranscript((prev) => (prev ? prev + " " + text : text));
+  };
+
   const handleCompleteSession = () => {
-    // Generate mock feedback
+    // Generate mock feedback with timestamps
+    const results: InterviewResult = {
+      domain: state.selectedDomain,
+      difficulty: state.selectedDifficulty,
+      questions: questions.map((q) => ({
+        question: q.text,
+        transcript:
+          "This is a sample transcript of the answer. In a real scenario, this would be the speech-to-text conversion of the user's response during the interview.",
+        duration: Math.floor(Math.random() * 120) + 30,
+        scores: {
+          posture: Math.floor(Math.random() * 20) + 75,
+          eyeContact: Math.floor(Math.random() * 20) + 70,
+          clarity: Math.floor(Math.random() * 15) + 85,
+          confidence: Math.floor(Math.random() * 20) + 75,
+          pace: Math.floor(Math.random() * 20) + 75,
+        },
+      })),
+      overallScore: Math.floor(Math.random() * 20) + 80,
+      timeElapsed,
+    };
+
+    setSessionResults(results);
     setSessionFeedback([
-      { metric: "Posture", score: 85 },
-      { metric: "Eye Contact", score: 78 },
-      { metric: "Speech Clarity", score: 92 },
-      { metric: "Confidence", score: 88 },
-      { metric: "Pace", score: 81 },
+      { metric: "Posture", score: results.questions[0].scores.posture },
+      { metric: "Eye Contact", score: results.questions[0].scores.eyeContact },
+      { metric: "Speech Clarity", score: results.questions[0].scores.clarity },
+      { metric: "Confidence", score: results.questions[0].scores.confidence },
+      { metric: "Pace", score: results.questions[0].scores.pace },
     ]);
     setIsRecording(false);
   };
 
-  if (sessionFeedback.length > 0) {
+  if (sessionResults) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4 pt-24">
-        <div className="max-w-3xl mx-auto">
-          <Card className="p-8">
-            <div className="text-center mb-8">
+        <div className="max-w-4xl mx-auto">
+          <Card className="p-8 space-y-8">
+            <div className="text-center space-y-2">
               <h1 className="text-4xl font-bold text-slate-900 mb-2">
-                Session Complete!
+                Session Complete! 🎉
               </h1>
               <p className="text-slate-600">
-                Great job! Here's your performance analysis
+                Great job! Here's your detailed performance analysis
               </p>
             </div>
 
+            {/* Overall Metrics */}
+            <div className="grid md:grid-cols-3 gap-4">
+              <div className="bg-blue-50 p-6 rounded-lg text-center border border-blue-200">
+                <div className="text-4xl font-bold text-blue-600 mb-2">
+                  {sessionResults.overallScore}%
+                </div>
+                <div className="text-sm text-slate-600">Overall Score</div>
+              </div>
+              <div className="bg-purple-50 p-6 rounded-lg text-center border border-purple-200">
+                <div className="text-4xl font-bold text-purple-600 mb-2">
+                  {sessionResults.questions.length}
+                </div>
+                <div className="text-sm text-slate-600">Questions</div>
+              </div>
+              <div className="bg-green-50 p-6 rounded-lg text-center border border-green-200">
+                <div className="text-4xl font-bold text-green-600 mb-2">
+                  {formatTime(sessionResults.timeElapsed)}
+                </div>
+                <div className="text-sm text-slate-600">Duration</div>
+              </div>
+            </div>
+
+            {/* Questions & Transcripts */}
             <div className="space-y-6">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-blue-50 p-4 rounded-lg text-center">
-                  <div className="text-3xl font-bold text-blue-600">
-                    {Math.round(
-                      sessionFeedback.reduce((sum, f) => sum + f.score, 0) /
-                        sessionFeedback.length
-                    )}
-                  </div>
-                  <div className="text-sm text-slate-600">Overall Score</div>
-                </div>
-                <div className="bg-purple-50 p-4 rounded-lg text-center">
-                  <div className="text-3xl font-bold text-purple-600">
-                    {formatTime(timeElapsed)}
-                  </div>
-                  <div className="text-sm text-slate-600">Duration</div>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <h3 className="font-bold text-lg text-slate-900">
-                  Performance Breakdown
-                </h3>
-                {sessionFeedback.map((item, idx) => (
-                  <div key={idx} className="space-y-2">
-                    <div className="flex justify-between">
-                      <span className="text-sm font-medium text-slate-700">
-                        {item.metric}
-                      </span>
-                      <span className="text-sm font-bold text-slate-900">
-                        {item.score}%
-                      </span>
+              <h3 className="text-2xl font-bold text-slate-900">
+                Detailed Feedback
+              </h3>
+              {sessionResults.questions.map((q, idx) => (
+                <Card key={idx} className="p-6 space-y-4 bg-slate-50">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h4 className="font-bold text-slate-900">
+                        Question {idx + 1}
+                      </h4>
+                      <p className="text-slate-700 mt-2">{q.question}</p>
                     </div>
-                    <Progress value={item.score} className="h-2" />
+                    <Badge className="bg-blue-100 text-blue-800">
+                      {q.duration}s
+                    </Badge>
                   </div>
-                ))}
-              </div>
 
-              <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
-                <h3 className="font-bold text-green-900 mb-2">
-                  ✨ Personalized Recommendations
-                </h3>
-                <ul className="text-sm text-green-800 space-y-1">
-                  <li>
-                    • Maintain more consistent eye contact with the camera
-                  </li>
-                  <li>• Reduce filler words like "um" and "uh"</li>
-                  <li>• Speak more slowly and deliberately</li>
-                  <li>• Practice your body language for better posture</li>
-                </ul>
-              </div>
+                  {/* Transcript */}
+                  <div className="bg-white p-4 rounded-lg border border-slate-200">
+                    <p className="text-sm font-semibold text-slate-900 mb-2 flex items-center gap-2">
+                      <Volume2 className="w-4 h-4" />
+                      Your Response
+                    </p>
+                    <p className="text-slate-700 italic">"{q.transcript}"</p>
+                  </div>
 
-              <div className="flex gap-4 pt-4">
-                <Button
-                  onClick={() => {
-                    setCurrentQuestionIndex(0);
-                    setTimeElapsed(0);
-                    setSessionFeedback([]);
-                    setIsRecording(false);
-                  }}
-                  className="flex-1"
-                >
-                  Practice Again
-                </Button>
-                <Button variant="outline" className="flex-1">
-                  Save Results
-                </Button>
-              </div>
+                  {/* Scores */}
+                  <div className="grid md:grid-cols-5 gap-2">
+                    {Object.entries(q.scores).map(([metric, score]) => (
+                      <div
+                        key={metric}
+                        className="bg-white p-3 rounded-lg border border-slate-200"
+                      >
+                        <div className="text-xs font-semibold text-slate-600 mb-1 capitalize">
+                          {metric.replace(/([A-Z])/g, " $1").trim()}
+                        </div>
+                        <div className="text-xl font-bold text-blue-600">
+                          {score}%
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
+              ))}
+            </div>
+
+            {/* Recommendations */}
+            <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 p-6 rounded-lg">
+              <h3 className="font-bold text-green-900 mb-4 text-lg">
+                ✨ Personalized Recommendations
+              </h3>
+              <ul className="text-green-800 space-y-2">
+                <li>
+                  • Maintain more consistent eye contact with the camera
+                </li>
+                <li>• Reduce filler words like "um" and "uh"</li>
+                <li>• Speak more slowly and deliberately</li>
+                <li>• Take a moment to think before answering</li>
+                <li>• Practice your body language for better posture</li>
+              </ul>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-4 flex-col sm:flex-row">
+              <Button
+                onClick={() => {
+                  setCurrentQuestionIndex(0);
+                  setTimeElapsed(0);
+                  setSessionResults(null);
+                  setTranscript("");
+                }}
+                className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600"
+              >
+                Practice Again
+              </Button>
+              <Button
+                onClick={() => navigate("/dashboard")}
+                variant="outline"
+                className="flex-1"
+              >
+                Back to Dashboard
+              </Button>
             </div>
           </Card>
         </div>
