@@ -1,4 +1,4 @@
-import { getRedisClient, initializeRedis } from "@server/config/redis";
+import { getRedisClient, initializeRedis } from "../../config/redis.js";
 
 export const ensureRedis = async () => {
   const client = await initializeRedis();
