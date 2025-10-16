@@ -603,11 +603,19 @@ export default function MCQPractice() {
 
             {/* Domain Info */}
             <Card className="p-4 bg-blue-50 border-blue-200 space-y-3">
-              <h3 className="font-bold text-blue-900">Domain</h3>
-              <p className="text-sm text-blue-800">{currentQuestion.domain}</p>
+              <h3 className="font-bold text-blue-900">Session Info</h3>
+              <p className="text-sm text-blue-800">{selectedDomainName}</p>
               <Badge className="bg-blue-100 text-blue-800 w-fit">
-                {currentQuestion.difficulty}
+                {selectedDifficulty}
               </Badge>
+              <Button
+                onClick={() => setSessionStarted(false)}
+                variant="outline"
+                size="sm"
+                className="w-full mt-2"
+              >
+                Change Domain
+              </Button>
             </Card>
           </div>
         </div>
