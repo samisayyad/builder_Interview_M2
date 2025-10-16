@@ -1,7 +1,7 @@
 import type { Server } from "socket.io";
 import type { Server as HttpServer } from "http";
-import { env } from "@server/config/env";
-import { logger } from "@server/utils/logger";
+import { env } from "../config/env.js";
+import { logger } from "../utils/logger.js";
 
 export const createSocketServer = (httpServer: HttpServer) => {
   const io = new Server(httpServer, {
