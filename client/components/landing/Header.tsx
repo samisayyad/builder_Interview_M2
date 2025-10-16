@@ -38,7 +38,7 @@ export function Header() {
           <Button variant="ghost">Sign In</Button>
           <Button
             className="bg-gradient-to-r from-blue-600 to-purple-600"
-            onClick={() => navigate("/interview")}
+            onClick={() => navigate("/interview-select")}
           >
             Get Started
           </Button>
