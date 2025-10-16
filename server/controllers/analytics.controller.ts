@@ -1,6 +1,6 @@
 import type { RequestHandler } from "express";
-import { analyticsService } from "@server/services/analytics.service";
-import { badRequest } from "@server/utils/http-error";
+import { analyticsService } from "../services/analytics.service.js";
+import { badRequest } from "../utils/http-error.js";
 
 export const handleGetDashboardAnalytics: RequestHandler = async (req, res, next) => {
   try {
