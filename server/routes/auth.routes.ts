@@ -4,7 +4,7 @@ import {
   handleLogin,
   handleRefreshToken,
   handleLogout,
-} from "@server/controllers/auth.controller";
+} from "../controllers/auth.controller.js";
 
 const router = Router();
 
