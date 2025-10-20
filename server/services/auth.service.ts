@@ -1,6 +1,7 @@
 import type { Request } from "express";
 import { compare, hash } from "bcrypt";
-import { sign, verify } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+const { sign, verify } = jwt;
 import { UserModel } from "../models/user.model.js";
 import { HttpError } from "../utils/http-error.js";
 import { env } from "../config/env.js";
