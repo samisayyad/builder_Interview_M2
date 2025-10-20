@@ -1,10 +1,8 @@
 import type { Request } from "express";
-import { compare, hash } from "bcrypt";
-import jwt from "jsonwebtoken";
-const { sign, verify } = jwt;
 import { UserModel } from "../models/user.model.js";
 import { HttpError } from "../utils/http-error.js";
 import { env } from "../config/env.js";
+import type { Request } from "express";
 
 export interface RegisterInput {
   email: string;
@@ -42,8 +40,25 @@ export interface AuthResult {
 const ACCESS_TOKEN_EXPIRY = "15m";
 const REFRESH_TOKEN_EXPIRY = "7d";
 
+let bcrypt: any = null;
+let jwt: any = null;
+
+const getBcrypt = async () => {
+  if (!bcrypt) {
+    bcrypt = await import("bcrypt");
+  }
+  return bcrypt;
+};
+
+const getJwt = async () => {
+  if (!jwt) {
+    jwt = await import("jsonwebtoken");
+  }
+  return jwt;
+};
+
 export class AuthService {
-  private generateTokens(userId: string) {
+  private async generateTokens(userId: string) {
     if (!env.jwtAccessSecret || !env.jwtRefreshSecret) {
       throw new HttpError(
         500,
