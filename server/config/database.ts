@@ -12,7 +12,8 @@ export const connectDatabase = async () => {
   }
 
   if (!env.mongoUri) {
-    throw new Error("MONGODB_URI is not configured");
+    logger.warn("MONGODB_URI is not configured. Database operations will be disabled.");
+    return mongoose;
   }
 
   connectionPromise = mongoose.connect(env.mongoUri, {
@@ -26,7 +27,7 @@ export const connectDatabase = async () => {
   } catch (error) {
     connectionPromise = null;
     logger.error("MongoDB connection failed", error as Error);
-    throw error;
+    logger.warn("Continuing without database - auth will not work properly");
   }
 
   return mongoose;
