@@ -66,11 +66,12 @@ export class AuthService {
       );
     }
 
-    const accessToken = sign({ userId, type: "access" }, env.jwtAccessSecret, {
+    const jwtModule = await getJwt();
+    const accessToken = jwtModule.sign({ userId, type: "access" }, env.jwtAccessSecret, {
       expiresIn: ACCESS_TOKEN_EXPIRY,
     });
 
-    const refreshToken = sign({ userId, type: "refresh" }, env.jwtRefreshSecret, {
+    const refreshToken = jwtModule.sign({ userId, type: "refresh" }, env.jwtRefreshSecret, {
       expiresIn: REFRESH_TOKEN_EXPIRY,
     });
 
@@ -78,12 +79,13 @@ export class AuthService {
   }
 
   async register(payload: RegisterInput): Promise<AuthResult> {
+    const bcryptModule = await getBcrypt();
     const existingUser = await UserModel.findOne({ email: payload.email });
     if (existingUser) {
       throw new HttpError(409, "Email already registered");
     }
 
-    const passwordHash = await hash(payload.password, 12);
+    const passwordHash = await bcryptModule.hash(payload.password, 12);
 
     const user = new UserModel({
       email: payload.email,
@@ -95,7 +97,7 @@ export class AuthService {
 
     await user.save();
 
-    const { accessToken, refreshToken } = this.generateTokens(user._id.toString());
+    const { accessToken, refreshToken } = await this.generateTokens(user._id.toString());
 
     return {
       data: {
@@ -113,17 +115,18 @@ export class AuthService {
   }
 
   async login(payload: LoginInput): Promise<AuthResult> {
+    const bcryptModule = await getBcrypt();
     const user = await UserModel.findOne({ email: payload.email });
     if (!user) {
       throw new HttpError(401, "Invalid email or password");
     }
 
-    const isValidPassword = await compare(payload.password, user.passwordHash);
+    const isValidPassword = await bcryptModule.compare(payload.password, user.passwordHash);
     if (!isValidPassword) {
       throw new HttpError(401, "Invalid email or password");
     }
 
-    const { accessToken, refreshToken } = this.generateTokens(user._id.toString());
+    const { accessToken, refreshToken } = await this.generateTokens(user._id.toString());
 
     return {
       data: {
@@ -145,13 +148,14 @@ export class AuthService {
       throw new HttpError(500, "JWT secrets are not configured");
     }
 
+    const jwtModule = await getJwt();
     const refreshToken = request.headers.authorization?.replace("Bearer ", "");
     if (!refreshToken) {
       throw new HttpError(401, "Missing refresh token");
     }
 
     try {
-      const decoded = verify(refreshToken, env.jwtRefreshSecret) as {
+      const decoded = jwtModule.verify(refreshToken, env.jwtRefreshSecret) as {
         userId: string;
         type: string;
       };
@@ -165,7 +169,7 @@ export class AuthService {
         throw new HttpError(401, "User not found");
       }
 
-      const { accessToken: newAccessToken, refreshToken: newRefreshToken } = this.generateTokens(
+      const { accessToken: newAccessToken, refreshToken: newRefreshToken } = await this.generateTokens(
         user._id.toString()
       );
 
