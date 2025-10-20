@@ -1,6 +1,4 @@
 import type { RequestHandler } from "express";
-import jwt from "jsonwebtoken";
-const { verify } = jwt;
 import { UserModel } from "../models/user.model.js";
 import { HttpError } from "../utils/http-error.js";
 import { env } from "../config/env.js";
@@ -14,6 +12,15 @@ declare global {
   }
 }
 
+let jwtModule: any = null;
+
+const getJwt = async () => {
+  if (!jwtModule) {
+    jwtModule = await import("jsonwebtoken");
+  }
+  return jwtModule;
+};
+
 export const authMiddleware: RequestHandler = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
@@ -26,7 +33,8 @@ export const authMiddleware: RequestHandler = async (req, res, next) => {
       throw new HttpError(500, "JWT secret not configured");
     }
 
-    const decoded = verify(token, env.jwtAccessSecret) as {
+    const jwt = await getJwt();
+    const decoded = jwt.verify(token, env.jwtAccessSecret) as {
       userId: string;
       type: string;
     };
