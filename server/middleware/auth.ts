@@ -1,5 +1,6 @@
 import type { RequestHandler } from "express";
-import { verify } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+const { verify } = jwt;
 import { UserModel } from "../models/user.model.js";
 import { HttpError } from "../utils/http-error.js";
 import { env } from "../config/env.js";
