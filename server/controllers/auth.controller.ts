@@ -62,3 +62,24 @@ export const handleLogout: RequestHandler = async (req, res, next) => {
     next(error);
   }
 };
+
+export const handleGetMe: RequestHandler = async (req, res, next) => {
+  try {
+    if (!req.user) {
+      throw new Error("User not found in request");
+    }
+
+    res.status(200).json({
+      data: {
+        id: req.user._id.toString(),
+        email: req.user.email,
+        firstName: req.user.firstName,
+        lastName: req.user.lastName,
+        avatarUrl: req.user.avatarUrl,
+        role: req.user.role,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
