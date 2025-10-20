@@ -1,4 +1,6 @@
-import { Schema, model, models, InferSchemaType } from "mongoose";
+import mongoose from "mongoose";
+const { Schema, model, models } = mongoose;
+import type { InferSchemaType } from "mongoose";
 
 const achievementSchema = new Schema(
   {
