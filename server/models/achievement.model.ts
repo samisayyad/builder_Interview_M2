@@ -30,7 +30,7 @@ const achievementSchema = new Schema(
       default: {},
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 achievementSchema.index({ points: -1 });

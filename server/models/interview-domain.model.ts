@@ -37,12 +37,14 @@ const interviewDomainSchema = new Schema(
       default: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 interviewDomainSchema.index({ slug: 1 });
 interviewDomainSchema.index({ isActive: 1 });
 
-export type InterviewDomainDocument = InferSchemaType<typeof interviewDomainSchema>;
+export type InterviewDomainDocument = InferSchemaType<
+  typeof interviewDomainSchema
+>;
 export const InterviewDomainModel =
   models.InterviewDomain || model("InterviewDomain", interviewDomainSchema);

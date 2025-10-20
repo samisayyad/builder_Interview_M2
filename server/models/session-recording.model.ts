@@ -8,7 +8,7 @@ const timelineEntrySchema = new Schema(
     event: { type: String, required: true },
     metadata: { type: Schema.Types.Mixed },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const sessionRecordingSchema = new Schema(
@@ -35,11 +35,13 @@ const sessionRecordingSchema = new Schema(
       default: [],
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 sessionRecordingSchema.index({ createdAt: -1 });
 
-export type SessionRecordingDocument = InferSchemaType<typeof sessionRecordingSchema>;
+export type SessionRecordingDocument = InferSchemaType<
+  typeof sessionRecordingSchema
+>;
 export const SessionRecordingModel =
   models.SessionRecording || model("SessionRecording", sessionRecordingSchema);

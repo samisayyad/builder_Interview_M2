@@ -18,7 +18,7 @@ const socialProviderSchema = new Schema(
       default: () => new Date(),
     },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const achievementProgressSchema = new Schema(
@@ -33,7 +33,7 @@ const achievementProgressSchema = new Schema(
       default: () => new Date(),
     },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const domainProgressSchema = new Schema(
@@ -53,7 +53,7 @@ const domainProgressSchema = new Schema(
       type: Date,
     },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const userSchema = new Schema(
@@ -131,7 +131,7 @@ const userSchema = new Schema(
     achievements: [achievementProgressSchema],
     domainsProgress: [domainProgressSchema],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 userSchema.index({ "statistics.experiencePoints": -1 });

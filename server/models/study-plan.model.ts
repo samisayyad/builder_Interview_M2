@@ -24,7 +24,7 @@ const studyPlanItemSchema = new Schema(
       default: "pending",
     },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const studyPlanSchema = new Schema(
@@ -56,10 +56,11 @@ const studyPlanSchema = new Schema(
       default: () => new Date(),
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 studyPlanSchema.index({ user: 1, updatedAt: -1 });
 
 export type StudyPlanDocument = InferSchemaType<typeof studyPlanSchema>;
-export const StudyPlanModel = models.StudyPlan || model("StudyPlan", studyPlanSchema);
+export const StudyPlanModel =
+  models.StudyPlan || model("StudyPlan", studyPlanSchema);

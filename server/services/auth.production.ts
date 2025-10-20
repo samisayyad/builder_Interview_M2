@@ -61,18 +61,26 @@ export class AuthService {
     if (!env.jwtAccessSecret || !env.jwtRefreshSecret) {
       throw new HttpError(
         500,
-        "JWT secrets are not configured. Please set JWT_ACCESS_SECRET and JWT_REFRESH_SECRET environment variables."
+        "JWT secrets are not configured. Please set JWT_ACCESS_SECRET and JWT_REFRESH_SECRET environment variables.",
       );
     }
 
     const jwtModule = await getJwt();
-    const accessToken = jwtModule.sign({ userId, type: "access" }, env.jwtAccessSecret, {
-      expiresIn: ACCESS_TOKEN_EXPIRY,
-    });
+    const accessToken = jwtModule.sign(
+      { userId, type: "access" },
+      env.jwtAccessSecret,
+      {
+        expiresIn: ACCESS_TOKEN_EXPIRY,
+      },
+    );
 
-    const refreshToken = jwtModule.sign({ userId, type: "refresh" }, env.jwtRefreshSecret, {
-      expiresIn: REFRESH_TOKEN_EXPIRY,
-    });
+    const refreshToken = jwtModule.sign(
+      { userId, type: "refresh" },
+      env.jwtRefreshSecret,
+      {
+        expiresIn: REFRESH_TOKEN_EXPIRY,
+      },
+    );
 
     return { accessToken, refreshToken };
   }
@@ -96,7 +104,9 @@ export class AuthService {
 
     await user.save();
 
-    const { accessToken, refreshToken } = await this.generateTokens(user._id.toString());
+    const { accessToken, refreshToken } = await this.generateTokens(
+      user._id.toString(),
+    );
 
     return {
       data: {
@@ -120,12 +130,17 @@ export class AuthService {
       throw new HttpError(401, "Invalid email or password");
     }
 
-    const isValidPassword = await bcryptModule.compare(payload.password, user.passwordHash);
+    const isValidPassword = await bcryptModule.compare(
+      payload.password,
+      user.passwordHash,
+    );
     if (!isValidPassword) {
       throw new HttpError(401, "Invalid email or password");
     }
 
-    const { accessToken, refreshToken } = await this.generateTokens(user._id.toString());
+    const { accessToken, refreshToken } = await this.generateTokens(
+      user._id.toString(),
+    );
 
     return {
       data: {
@@ -168,9 +183,8 @@ export class AuthService {
         throw new HttpError(401, "User not found");
       }
 
-      const { accessToken: newAccessToken, refreshToken: newRefreshToken } = await this.generateTokens(
-        user._id.toString()
-      );
+      const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+        await this.generateTokens(user._id.toString());
 
       return {
         accessToken: newAccessToken,

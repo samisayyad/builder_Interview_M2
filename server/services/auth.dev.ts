@@ -56,24 +56,34 @@ export class AuthService {
     if (!env.jwtAccessSecret || !env.jwtRefreshSecret) {
       throw new HttpError(
         500,
-        "JWT secrets are not configured. Please set JWT_ACCESS_SECRET and JWT_REFRESH_SECRET environment variables."
+        "JWT secrets are not configured. Please set JWT_ACCESS_SECRET and JWT_REFRESH_SECRET environment variables.",
       );
     }
 
     const jwtModule = await getJwt();
-    const accessToken = jwtModule.sign({ userId, type: "access" }, env.jwtAccessSecret, {
-      expiresIn: ACCESS_TOKEN_EXPIRY,
-    });
+    const accessToken = jwtModule.sign(
+      { userId, type: "access" },
+      env.jwtAccessSecret,
+      {
+        expiresIn: ACCESS_TOKEN_EXPIRY,
+      },
+    );
 
-    const refreshToken = jwtModule.sign({ userId, type: "refresh" }, env.jwtRefreshSecret, {
-      expiresIn: REFRESH_TOKEN_EXPIRY,
-    });
+    const refreshToken = jwtModule.sign(
+      { userId, type: "refresh" },
+      env.jwtRefreshSecret,
+      {
+        expiresIn: REFRESH_TOKEN_EXPIRY,
+      },
+    );
 
     return { accessToken, refreshToken };
   }
 
   async register(payload: RegisterInput): Promise<AuthResult> {
-    const existingUser = Array.from(users.values()).find(u => u.email === payload.email);
+    const existingUser = Array.from(users.values()).find(
+      (u) => u.email === payload.email,
+    );
     if (existingUser) {
       throw new HttpError(409, "Email already registered");
     }
@@ -109,7 +119,9 @@ export class AuthService {
   }
 
   async login(payload: LoginInput): Promise<AuthResult> {
-    const user = Array.from(users.values()).find(u => u.email === payload.email);
+    const user = Array.from(users.values()).find(
+      (u) => u.email === payload.email,
+    );
     if (!user || user.password !== payload.password) {
       throw new HttpError(401, "Invalid email or password");
     }
@@ -157,9 +169,8 @@ export class AuthService {
         throw new HttpError(401, "User not found");
       }
 
-      const { accessToken: newAccessToken, refreshToken: newRefreshToken } = await this.generateTokens(
-        decoded.userId
-      );
+      const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+        await this.generateTokens(decoded.userId);
 
       return {
         accessToken: newAccessToken,

@@ -8,7 +8,7 @@ const feedbackSchema = new Schema(
     score: { type: Number, min: 0, max: 100, required: true },
     comments: { type: String },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const interviewSessionSchema = new Schema(
@@ -66,12 +66,14 @@ const interviewSessionSchema = new Schema(
       timeline: Schema.Types.Mixed,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 interviewSessionSchema.index({ user: 1, createdAt: -1 });
 interviewSessionSchema.index({ status: 1, scheduledAt: 1 });
 
-export type InterviewSessionDocument = InferSchemaType<typeof interviewSessionSchema>;
+export type InterviewSessionDocument = InferSchemaType<
+  typeof interviewSessionSchema
+>;
 export const InterviewSessionModel =
   models.InterviewSession || model("InterviewSession", interviewSessionSchema);

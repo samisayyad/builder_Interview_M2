@@ -6,7 +6,15 @@ const emotionSnapshotSchema = new Schema(
   {
     label: {
       type: String,
-      enum: ["neutral", "happy", "sad", "angry", "fearful", "disgusted", "surprised"],
+      enum: [
+        "neutral",
+        "happy",
+        "sad",
+        "angry",
+        "fearful",
+        "disgusted",
+        "surprised",
+      ],
       required: true,
     },
     probability: {
@@ -20,7 +28,7 @@ const emotionSnapshotSchema = new Schema(
       required: true,
     },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const sessionMetricsSchema = new Schema(
@@ -79,11 +87,13 @@ const sessionMetricsSchema = new Schema(
       index: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 sessionMetricsSchema.index({ overallPerformanceScore: -1 });
 
-export type SessionMetricsDocument = InferSchemaType<typeof sessionMetricsSchema>;
+export type SessionMetricsDocument = InferSchemaType<
+  typeof sessionMetricsSchema
+>;
 export const SessionMetricsModel =
   models.SessionMetrics || model("SessionMetrics", sessionMetricsSchema);

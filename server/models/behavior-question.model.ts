@@ -30,11 +30,13 @@ const behaviorQuestionSchema = new Schema(
       default: "intermediate",
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 behaviorQuestionSchema.index({ domain: 1, difficulty: 1 });
 
-export type BehaviorQuestionDocument = InferSchemaType<typeof behaviorQuestionSchema>;
+export type BehaviorQuestionDocument = InferSchemaType<
+  typeof behaviorQuestionSchema
+>;
 export const BehaviorQuestionModel =
   models.BehaviorQuestion || model("BehaviorQuestion", behaviorQuestionSchema);

@@ -48,11 +48,12 @@ const mcqQuestionSchema = new Schema(
       default: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 mcqQuestionSchema.index({ domain: 1, difficulty: 1 });
 mcqQuestionSchema.index({ tags: 1 });
 
 export type McqQuestionDocument = InferSchemaType<typeof mcqQuestionSchema>;
-export const McqQuestionModel = models.McqQuestion || model("McqQuestion", mcqQuestionSchema);
+export const McqQuestionModel =
+  models.McqQuestion || model("McqQuestion", mcqQuestionSchema);

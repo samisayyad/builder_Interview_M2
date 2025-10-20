@@ -31,10 +31,11 @@ const caseStudySchema = new Schema(
       default: 45,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 caseStudySchema.index({ domain: 1 });
 
 export type CaseStudyDocument = InferSchemaType<typeof caseStudySchema>;
-export const CaseStudyModel = models.CaseStudy || model("CaseStudy", caseStudySchema);
+export const CaseStudyModel =
+  models.CaseStudy || model("CaseStudy", caseStudySchema);

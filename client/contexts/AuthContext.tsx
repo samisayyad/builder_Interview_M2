@@ -28,7 +28,10 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const API_BASE = (() => {
   // In production, use the current origin (same domain)
-  if (typeof window !== "undefined" && window.location.hostname !== "localhost") {
+  if (
+    typeof window !== "undefined" &&
+    window.location.hostname !== "localhost"
+  ) {
     return window.location.origin;
   }
   // In development, use the configured base URL

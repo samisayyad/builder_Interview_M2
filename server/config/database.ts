@@ -12,7 +12,9 @@ export const connectDatabase = async () => {
   }
 
   if (!env.mongoUri) {
-    logger.warn("MONGODB_URI is not configured. Database operations will be disabled.");
+    logger.warn(
+      "MONGODB_URI is not configured. Database operations will be disabled.",
+    );
     return mongoose;
   }
 
